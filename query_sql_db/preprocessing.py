@@ -24,12 +24,6 @@ class ImagePreprocessor:
                                            cv2.THRESH_BINARY, 11, 2)
         return self.image
     
-    def resize_image(self, scale_factor: float = 2.0):
-        """Resize image to improve OCR accuracy."""
-        height, width = self.image.shape[:2]
-        self.image = cv2.resize(self.image, (int(width * scale_factor), int(height * scale_factor)))
-        return self.image
-    
     def extract_text(self):
         """Extract text from the processed image using Tesseract OCR."""
         return pytesseract.image_to_string(self.image)
@@ -39,6 +33,5 @@ class ImagePreprocessor:
         self.to_grayscale()
         self.remove_noise()
         self.thresholding()
-        self.resize_image()
         
         return self.extract_text()

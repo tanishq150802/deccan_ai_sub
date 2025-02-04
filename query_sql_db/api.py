@@ -19,7 +19,7 @@ cur = conn.cursor()
 app = FastAPI()
 
 @app.post("/query_file/")
-async def uploadfile(filename: str) -> str: #input - filename
+async def mentionfile(filename: str) -> str: #input - filename
     command = f"""
     select type, description from ocr where filename = '{filename}';
     """

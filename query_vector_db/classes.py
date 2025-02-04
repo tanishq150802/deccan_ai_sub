@@ -1,6 +1,30 @@
 import cv2
 import pytesseract
+from chromadb import Documents, EmbeddingFunction, Embeddings
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+google_api_key = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=google_api_key)
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+
+class Embedfn(EmbeddingFunction):
+    document_mode = True
+
+    def __call__(self, input: Documents) -> Embeddings:
+        if self.document_mode:
+            embedding_task = "retrieval_document"
+        else:
+            embedding_task = "retrieval_query"
+
+        response = genai.embed_content(
+            model="models/text-embedding-004",
+            content=input,
+            task_type=embedding_task
+        )
+        return response["embedding"]
 
 class ImagePreprocessor:
     def __init__(self, image_path: str):
