@@ -9,6 +9,7 @@ load_dotenv()
 
 import google.generativeai as genai
 google_api_key = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=google_api_key)
 model = genai_model()
 
 os.chdir("C:\\Old PC\\Mission Machine Learning\\Deccan_AI")
